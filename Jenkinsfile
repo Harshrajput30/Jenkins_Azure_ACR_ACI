@@ -12,7 +12,7 @@ pipeline {
 	ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
 	RESOURCE_GROUP = "iquant-eastasia"
 	ACI_NAME = "java-app-container"
-	ACI_REGION = "eastus"
+	ACI_REGION = "eastasia"
     }
     stages {
         stage('Initialize Pipeline'){
