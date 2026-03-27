@@ -5,7 +5,7 @@ pipeline {
 	maven 'maven3'
     }
     environment {
-	SONAR_SCANNER_HOME = tool 'sonar7'
+	SONAR_SCANNER_HOME = tool 'sonar8'
 	IMAGE_NAME = "java-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
 	ACR_NAME = "javaapprepo00"
@@ -43,18 +43,19 @@ pipeline {
         stage('SonarQube Analysis'){
             steps {
                 echo 'Running Static Code Analysis with SonarQube'
-		withCredentials([string(credentialsId: 'sonartoken', variable: 'sonarToken')]) {
-    			withSonarQubeEnv('sonar') {
-    			   	sh '''
-					${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-  					-Dsonar.projectKey=jenkinsazure \
-  					-Dsonar.sources=. \
-  					-Dsonar.host.url=http://172.18.0.3:9000 \
-       					-Dsonar.java.binaries=target/classes \
-  					-Dsonar.token=$sonarToken
-   				'''
-		   }
-		}
+				withCredentials([string(credentialsId: 'sonartoken', variable: 'sonartoken')]) {
+                     withSonarQubeEnv('sonar') {
+                           	sh '''
+				    	${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                       -Dsonar.projectKey=jenkinsazure \
+                       -Dsonar.sources=. \
+                       -Dsonar.host.url=http://localhost:9000 \
+					   -Dsonar.java.binaries=target/classes \
+                       -Dsonar.token=$sonartoken
+   				         '''
+                   }
+                 }
+		 
             }
         }
         stage('Trivy FS Scan'){
