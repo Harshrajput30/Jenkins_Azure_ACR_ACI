@@ -82,15 +82,16 @@ pipeline {
         }
 	stage('Authenticate with Azure') {
             steps {
-		withCredentials([file(credentialsId: 'azServicePrincipal', variable: 'AZURE_CRED')]) {
-			sh '''
+				withCredentials([string(credentialsId: 'sonartoken', variable: 'sonartoken'), file(credentialsId: 'azServicePrincipal', variable: 'AZURE_CRED')]) {
+                 sh '''
 				echo 'Authenticating with Azure'
     				az login --service-principal --username $(jq -r .clientId $AZURE_CRED) \
               					--password $(jq -r .clientSecret $AZURE_CRED) \
               					--tenant $(jq -r .tenantId $AZURE_CRED) > /dev/null
             			az account set --subscription $(jq -r .subscriptionId $AZURE_CRED)
 			'''
-		}
+               }
+		
 		
             }
         }
