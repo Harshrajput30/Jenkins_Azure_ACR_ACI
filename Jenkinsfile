@@ -97,8 +97,8 @@ pipeline {
         }
 	stage('Tag & Push Image to Azure Container Registry (ACR)') {
             steps {
-		withCredentials([file(credentialsId: 'azServicePrincipal', variable: 'AZURE_CRED')]) {
-			sh '''
+				withCredentials([string(credentialsId: 'sonartoken', variable: 'sonartoken'), file(credentialsId: 'azServicePrincipal', variable: 'AZURE_CRED')]) {
+                     			sh '''
 				echo 'Tagging and Pushing Image to ACR'
     				az acr login --name $ACR_NAME
 
@@ -108,7 +108,8 @@ pipeline {
           			echo "Pushing Docker image to ACR..."
           			docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$IMAGE_TAG
        			'''
-		}
+               }
+
             }
         }
 	stage('Deploy to Azure Container Instance (ACI) & Get App URL') {
