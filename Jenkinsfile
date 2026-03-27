@@ -10,7 +10,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
 	ACR_NAME = "javaapprepo00"
 	ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
-	RESOURCE_GROUP = "iquant-00"
+	RESOURCE_GROUP = "iquant-eastasia"
 	ACI_NAME = "java-app-container"
 	ACI_REGION = "eastus"
     }
